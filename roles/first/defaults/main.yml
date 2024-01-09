@@ -1,0 +1,15 @@
+---
+hostname: "vps3"
+locale: "ru_RU.UTF-8"
+timezone: "Europe/Moscow"
+
+packages_list:
+  - lsb-release
+  - net-tools
+  - gnupg
+  - rsync
+  - htop
+  - curl
+  - wget
+  - mc
+packages_state: present

@@ -1,0 +1,12 @@
+---
+- name: Set hostname
+  command: "hostnamectl set-hostname {{ hostname }}"
+  when: ansible_hostname != hostname
+
+- name: Set locale settings
+  command: 'locale-gen {{ locale }} && update-locale LANG={{ locale }} LC_TIME="{{ locale }}"'
+  when: ansible_env['LANG'] != locale
+
+- name: Set timezone
+  community.general.timezone:
+    name: "{{ timezone }}"

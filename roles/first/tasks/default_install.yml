@@ -1,0 +1,5 @@
+---
+- name: Install default packages
+  package:
+    name: "{{ packages_list }}"
+    state: "{{ packages_state }}"

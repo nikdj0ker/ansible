@@ -1,0 +1,35 @@
+---
+- name: Add Docker apt key
+  apt_key:
+    url: "{{ docker_apt_gpg_key }}"
+    keyring: /etc/apt/trusted.gpg.d/docker.gpg
+    state: present
+  when: docker_add_repo | bool
+
+- name: Add Docker repository
+  apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+    filename: "{{ docker_apt_filename }}"
+    update_cache: true
+  when: docker_add_repo | bool
+
+- name: Install Docker packages
+  package:
+    name: "{{ docker_packages }}"
+    state: "{{ docker_packages_state }}"
+  notify: restart docker
+
+- name: Ensure Docker is started and enabled at boot
+  service:
+    name: docker
+    state: "{{ docker_service_state }}"
+    enabled: "{{ docker_service_enabled }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+  when: docker_service_manage | bool
+
+- name: Install Docker Compose
+  get_url:
+    url: "{{ docker_compose_url }}"
+    dest: "{{ docker_compose_path }}"
+    mode: 0755

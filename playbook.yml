@@ -1,0 +1,7 @@
+---
+- name: Install vps3 server
+  hosts: vps
+  become: true
+  roles:
+    - first
+    - docker
